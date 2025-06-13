@@ -5,11 +5,10 @@ import {
   type FC,
   type ReactNode,
 } from "react";
-import CommonDialog from "../CommonDialog/CommonDialog";
+import CommonDialog from "../../components/CommonDialog/CommonDialog";
+import CommonButton from "../../components/CommonButton/CommonButton";
 
-interface TLoginDialogProps {
-  children: ReactNode;
-}
+interface TLoginDialogProps {}
 
 const LoginDialog: FC<TLoginDialogProps> = () => {
   const [username, setUsername] = useState("");
@@ -49,12 +48,9 @@ const LoginDialog: FC<TLoginDialogProps> = () => {
           className="w-full px-4 py-2 bg-zinc-900 placeholder-gray-400 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 my-2 mb-4"
           type="password"
         />
-        <button
-          className="w-full bg-blue-600 py-1 rounded-md"
-          onClick={handleLogin}
-        >
-          Login
-        </button>
+        <div className="flex justify-end">
+          <CommonButton onClick={handleLogin}>Login</CommonButton>
+        </div>
       </div>
     </CommonDialog>
   );

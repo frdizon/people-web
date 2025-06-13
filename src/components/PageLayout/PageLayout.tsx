@@ -1,15 +1,24 @@
 import type { FC, ReactNode } from "react";
-import Appbar from "./subcomponents/Appbar";
+import Appbar, { type TAppbarProps } from "./subcomponents/Appbar";
 
-interface TPageLayoutProps {
+interface TPageLayoutProps extends TAppbarProps {
   children: ReactNode;
 }
 
-const PageLayout: FC<TPageLayoutProps> = ({ children }) => {
+const PageLayout: FC<TPageLayoutProps> = ({
+  menuButtons,
+  onMenuButtonClick,
+  onLogout,
+  children,
+}) => {
   return (
     <div className="flex flex-col h-full">
-      <Appbar />
-      <div className="border-solid border-1 flex-1">{children}</div>
+      <Appbar
+        menuButtons={menuButtons}
+        onMenuButtonClick={onMenuButtonClick}
+        onLogout={onLogout}
+      />
+      <div className="flex-1">{children}</div>
     </div>
   );
 };
