@@ -1,10 +1,4 @@
-import {
-  useCallback,
-  useState,
-  type ChangeEvent,
-  type FC,
-  type ReactNode,
-} from "react";
+import { useCallback, useState, type ChangeEvent, type FC } from "react";
 import CommonDialog from "../../components/CommonDialog/CommonDialog";
 import CommonButton from "../../components/CommonButton/CommonButton";
 
@@ -40,13 +34,15 @@ const LoginDialog: FC<TLoginDialogProps> = () => {
         <input
           className="w-full px-4 py-2 bg-zinc-900 placeholder-gray-400 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 my-2 mb-4"
           type="text"
+          value={username}
           onChange={handleChangeUsername}
         />
         Password
         <input
-          onChange={handleChangePassword}
           className="w-full px-4 py-2 bg-zinc-900 placeholder-gray-400 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 my-2 mb-4"
           type="password"
+          value={password}
+          onChange={handleChangePassword}
         />
         <div className="flex justify-end">
           <CommonButton onClick={handleLogin}>Login</CommonButton>

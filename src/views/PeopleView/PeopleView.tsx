@@ -1,6 +1,7 @@
 import { useCallback, type FC } from "react";
 import PageLayout from "../../components/PageLayout/PageLayout";
 import { APPBAR_MENU_BUTTONS } from "./constants";
+import PeopleTable from "../../components/PeopleTable/PeopleTable";
 
 const PeopleView: FC = () => {
   const handleMenuButtonClick = useCallback((clickedButton: string) => {
@@ -17,7 +18,7 @@ const PeopleView: FC = () => {
       onMenuButtonClick={handleMenuButtonClick}
       onLogout={handleLogout}
     >
-      <div>People View</div>
+      <PeopleTable />
     </PageLayout>
   );
 };
