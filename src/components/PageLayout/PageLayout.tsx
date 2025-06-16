@@ -1,22 +1,31 @@
-import type { FC, ReactNode } from "react";
-import Appbar, { type TAppbarProps } from "./subcomponents/Appbar";
+import { useCallback, type FC, type ReactNode } from "react";
+import Appbar from "./subcomponents/Appbar";
+import { useAppDispatch } from "../../utils/reduxHooks";
+import { clear } from "../../redux/authTokenSlice";
 
-interface TPageLayoutProps extends TAppbarProps {
+interface TPageLayoutProps {
+  menuButtons: string[];
+  onMenuButtonClick: (clickedButton: string) => void;
   children: ReactNode;
 }
 
 const PageLayout: FC<TPageLayoutProps> = ({
   menuButtons,
   onMenuButtonClick,
-  onLogout,
   children,
 }) => {
+  const dispatch = useAppDispatch();
+
+  const handleLogout = useCallback(() => {
+    dispatch(clear());
+  }, [dispatch]);
+
   return (
     <div className="flex flex-col h-full">
       <Appbar
         menuButtons={menuButtons}
         onMenuButtonClick={onMenuButtonClick}
-        onLogout={onLogout}
+        onLogout={handleLogout}
       />
       <div className="flex-1">{children}</div>
     </div>

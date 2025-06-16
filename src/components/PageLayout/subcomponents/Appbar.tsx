@@ -20,7 +20,7 @@ const Appbar: FC<TAppbarProps> = ({
   );
 
   return (
-    <div className="w-full bg-stone-800 h-16 flex justify-between items-center px-3 border-b border-black">
+    <div className="w-full bg-stone-800 h-16 flex justify-between items-center px-4 border-b border-black">
       <div>
         {menuButtons.map((buttonName) => (
           <CommonButton onClick={handleButtonClick(buttonName)}>

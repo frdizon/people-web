@@ -1,23 +1,21 @@
 import { useCallback, useState, type ChangeEvent, type FC } from "react";
 import CommonDialog from "../../components/CommonDialog/CommonDialog";
 import CommonButton from "../../components/CommonButton/CommonButton";
+import { useLazyLoginQuery } from "../../redux/loginApi";
 
-interface TLoginDialogProps {}
-
-const LoginDialog: FC<TLoginDialogProps> = () => {
-  const [username, setUsername] = useState("");
+const LoginDialog: FC = () => {
+  const [login, { isLoading, error, data }] = useLazyLoginQuery();
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = useCallback(() => {
-    console.log(username, password);
-  }, [username, password]);
+    console.log(email, password);
+    login({ email, password });
+  }, [email, login, password]);
 
-  const handleChangeUsername = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      setUsername(e.target.value);
-    },
-    []
-  );
+  const handleChangeEmail = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  }, []);
 
   const handleChangePassword = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -30,12 +28,12 @@ const LoginDialog: FC<TLoginDialogProps> = () => {
     <CommonDialog>
       <div className="text-2xl mb-5">Sign in</div>
       <div>
-        Username
+        Email
         <input
           className="w-full px-4 py-2 bg-zinc-900 placeholder-gray-400 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 my-2 mb-4"
           type="text"
-          value={username}
-          onChange={handleChangeUsername}
+          value={email}
+          onChange={handleChangeEmail}
         />
         Password
         <input
