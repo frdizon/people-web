@@ -11,12 +11,12 @@ interface TLoginRequestBody {
   password: string;
 }
 
-const AUTENTHICATION_BASE_URLTH = import.meta.env.VITE_AUTENTHICATION_BASE_URL;
+const AUTENTHICATION_BASE_URL = import.meta.env.VITE_AUTENTHICATION_BASE_URL;
 
 export const loginApi = createApi({
   reducerPath: "loginApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${AUTENTHICATION_BASE_URLTH}`,
+    baseUrl: `${AUTENTHICATION_BASE_URL}`,
   }),
   endpoints: (builder) => ({
     login: builder.query<TLoginResponseBody, TLoginRequestBody>({

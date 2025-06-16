@@ -2,9 +2,10 @@ import { useCallback, useState, type ChangeEvent, type FC } from "react";
 import CommonDialog from "../../components/CommonDialog/CommonDialog";
 import CommonButton from "../../components/CommonButton/CommonButton";
 import { useLazyLoginQuery } from "../../redux/loginApi";
+import { errorMessageParser } from "./utils";
 
 const LoginDialog: FC = () => {
-  const [login, { isLoading, error, data }] = useLazyLoginQuery();
+  const [login, { error, isFetching }] = useLazyLoginQuery();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -24,16 +25,20 @@ const LoginDialog: FC = () => {
     []
   );
 
+  const errorMsg = errorMessageParser(error);
+
   return (
     <CommonDialog>
       <div className="text-2xl mb-5">Sign in</div>
       <div>
+        <div className="text-red-500">{errorMsg}</div>
         Email
         <input
           className="w-full px-4 py-2 bg-zinc-900 placeholder-gray-400 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 my-2 mb-4"
           type="text"
           value={email}
           onChange={handleChangeEmail}
+          disabled={isFetching}
         />
         Password
         <input
@@ -41,13 +46,18 @@ const LoginDialog: FC = () => {
           type="password"
           value={password}
           onChange={handleChangePassword}
+          disabled={isFetching}
         />
         <div className="flex justify-end">
-          <CommonButton onClick={handleLogin}>Login</CommonButton>
+          <CommonButton onClick={handleLogin} isLoading={isFetching}>
+            Login
+          </CommonButton>
         </div>
       </div>
     </CommonDialog>
   );
 };
+
+//<div className="w-7 h-7 border-4 border-t-blue-500 border-stone-800/50 rounded-full animate-spin"></div>
 
 export default LoginDialog;

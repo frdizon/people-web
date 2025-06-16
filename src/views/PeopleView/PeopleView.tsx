@@ -3,16 +3,15 @@ import PageLayout from "../../components/PageLayout/PageLayout";
 import { APPBAR_MENU_BUTTONS } from "./constants";
 import PeopleTable from "../../components/PeopleTable/PeopleTable";
 import AddPeopleDialog from "../../components/AddPeopleDialog/AddPeopleDialog";
+import { useGetPersonsQuery } from "../../redux/getPeopleApi";
 
 const PeopleView: FC = () => {
   const [isAddDialogShown, setIsAddDialogShown] = useState(false);
 
+  const { isLoading } = useGetPersonsQuery();
+
   const handleMenuButtonClick = useCallback(() => {
     setIsAddDialogShown(true);
-  }, []);
-
-  const handleLogout = useCallback(() => {
-    console.log("Logout");
   }, []);
 
   const handleDialogClose = useCallback(() => {
@@ -23,9 +22,8 @@ const PeopleView: FC = () => {
     <PageLayout
       menuButtons={APPBAR_MENU_BUTTONS}
       onMenuButtonClick={handleMenuButtonClick}
-      onLogout={handleLogout}
     >
-      <PeopleTable />
+      <PeopleTable isLoading={isLoading} />
       {isAddDialogShown && (
         <AddPeopleDialog onDialocClose={handleDialogClose} />
       )}
