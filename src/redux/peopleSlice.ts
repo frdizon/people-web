@@ -1,8 +1,13 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { TPerson } from "./getPeopleApi";
+import type { TPerson } from "./peopleApi";
 import processViewedPeopleList from "../utils/processViewedPeopleList";
 
 export type TDoPagination = "first" | "prev" | "next" | "last";
+
+export interface TMultipleDeleteSetAction {
+  type: "add" | "remove" | "clear";
+  payload?: string;
+}
 
 export interface TSortingState {
   type: "asc" | "desc";
@@ -30,6 +35,10 @@ export interface TPersonsListState {
   viewedPersonsList: TPerson[];
   // Used for searching, sorting, and pagination states
   queryValues: TQueryValuesState;
+  // Used for storing selected ids for multiple delete
+  deleteIdsArr: string[];
+  // Used for for flagging if multiple delete is ongoing
+  isMultipleDeleteOngoing: boolean;
 }
 
 const initialState: TPersonsListState = {
@@ -37,6 +46,8 @@ const initialState: TPersonsListState = {
   filteredSortedList: [],
   viewedPersonsList: [],
   queryValues: {},
+  deleteIdsArr: [],
+  isMultipleDeleteOngoing: false,
 };
 
 export const personsListSlice = createSlice({
@@ -45,11 +56,19 @@ export const personsListSlice = createSlice({
   reducers: {
     setRawPersonsList: (state, action: PayloadAction<TPerson[]>) => {
       state.rawPersonsList = action.payload;
-      state.queryValues.pagination = state.queryValues.pagination ?? {
-        currentPage: 0,
+      state.queryValues.pagination = {
+        currentPage: state.queryValues.pagination?.currentPage ?? 0,
         lastPage: Math.ceil(action.payload.length / 5),
         offset: 5,
       };
+      if (
+        state.queryValues.pagination.currentPage >
+        state.queryValues.pagination.lastPage - 1
+      ) {
+        // Adjust current page according to last page.
+        state.queryValues.pagination.currentPage =
+          state.queryValues.pagination.lastPage - 1;
+      }
       state.queryValues.sorting = state.queryValues.sorting ?? {
         type: "asc",
         field: "name",
@@ -146,10 +165,41 @@ export const personsListSlice = createSlice({
         );
       }
     },
+    doMutateMultipleDeleteState: (
+      state,
+      action: PayloadAction<TMultipleDeleteSetAction>
+    ) => {
+      switch (action.payload.type) {
+        case "add":
+          if (action.payload.payload) {
+            state.deleteIdsArr.push(action.payload.payload);
+          }
+          break;
+        case "remove":
+          if (action.payload.payload) {
+            state.deleteIdsArr = state.deleteIdsArr.filter(
+              (id) => id !== action.payload.payload
+            );
+          }
+          break;
+        case "clear":
+          state.deleteIdsArr = [];
+          break;
+      }
+    },
+    doTriggerMultipleDelete: (state, action: PayloadAction<boolean>) => {
+      state.isMultipleDeleteOngoing = action.payload;
+    },
   },
 });
 
-export const { setRawPersonsList, doPagination, doSorting, doSearching } =
-  personsListSlice.actions;
+export const {
+  setRawPersonsList,
+  doPagination,
+  doSorting,
+  doSearching,
+  doMutateMultipleDeleteState,
+  doTriggerMultipleDelete,
+} = personsListSlice.actions;
 
 export default personsListSlice.reducer;

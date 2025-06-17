@@ -1,21 +1,18 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { loginApi } from "./redux/loginApi";
 import authTokenReducer from "./redux/authTokenSlice";
-import { getPeopleApi } from "./redux/getPeopleApi";
+import { peopleApi } from "./redux/peopleApi";
 import personsListReducer from "./redux/peopleSlice";
 
 export const store = configureStore({
   reducer: {
     [loginApi.reducerPath]: loginApi.reducer,
     authToken: authTokenReducer,
-    [getPeopleApi.reducerPath]: getPeopleApi.reducer,
+    [peopleApi.reducerPath]: peopleApi.reducer,
     personsList: personsListReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat([
-      loginApi.middleware,
-      getPeopleApi.middleware,
-    ]),
+    getDefaultMiddleware().concat([loginApi.middleware, peopleApi.middleware]),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

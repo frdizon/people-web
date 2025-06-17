@@ -3,7 +3,7 @@ import PageLayout from "../../components/PageLayout/PageLayout";
 import { APPBAR_MENU_BUTTONS } from "./constants";
 import PeopleTable from "../../components/PeopleTable/PeopleTable";
 import AddPeopleDialog from "../../components/AddPeopleDialog/AddPeopleDialog";
-import { useGetPersonsQuery } from "../../redux/getPeopleApi";
+import { useGetPersonsQuery } from "../../redux/peopleApi";
 
 const PeopleView: FC = () => {
   const [isAddDialogShown, setIsAddDialogShown] = useState(false);

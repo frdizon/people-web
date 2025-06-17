@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import {
   usePostPersonMutation,
   type TPostPersonRequestBody,
-} from "../../redux/getPeopleApi";
+} from "../../redux/peopleApi";
 import errorMessageParser from "../../utils/errorMessageParser";
 
 const initializeBlankPerson = (): TPostPersonRequestBody => ({

@@ -10,7 +10,6 @@ const LoginDialog: FC = () => {
   const [password, setPassword] = useState("");
 
   const handleLogin = useCallback(() => {
-    console.log(email, password);
     login({ email, password });
   }, [email, login, password]);
 

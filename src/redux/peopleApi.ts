@@ -1,6 +1,10 @@
 // features/api/authApi.ts
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { setRawPersonsList } from "./peopleSlice";
+import {
+  doMutateMultipleDeleteState,
+  doTriggerMultipleDelete,
+  setRawPersonsList,
+} from "./peopleSlice";
 import type { RootState } from "../store";
 
 export interface TRawPerson {
@@ -32,8 +36,8 @@ export type TPostPersonRequestBody = Omit<
 
 const PEOPLE_BASE_URL = import.meta.env.VITE_PEOPLE_BASE_URL;
 
-export const getPeopleApi = createApi({
-  reducerPath: "getPeopleApi",
+export const peopleApi = createApi({
+  reducerPath: "peopleApi",
   tagTypes: ["people"],
   baseQuery: fetchBaseQuery({
     baseUrl: `${PEOPLE_BASE_URL}`,
@@ -79,7 +83,49 @@ export const getPeopleApi = createApi({
       }),
       invalidatesTags: ["people"],
     }),
+    deletePerson: builder.mutation<void, string>({
+      query: (personId) => ({
+        url: `person/${personId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["people"],
+    }),
+    deleteMultiplePerson: builder.mutation<string, string[]>({
+      queryFn: async (userIds, args) => {
+        try {
+          await Promise.all(
+            userIds.map((personId) =>
+              fetch(`${PEOPLE_BASE_URL}/person/${personId}`, {
+                method: "DELETE",
+                headers: {
+                  Authorization: (args.getState() as RootState).authToken.token,
+                },
+              })
+            )
+          );
+          return { data: "success" };
+        } catch {
+          return { data: "failed" };
+        }
+      },
+      invalidatesTags: ["people"],
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          dispatch(doTriggerMultipleDelete(true));
+          await queryFulfilled;
+          dispatch(doTriggerMultipleDelete(false));
+          dispatch(doMutateMultipleDeleteState({ type: "clear" }));
+        } catch {
+          // Do nothing
+        }
+      },
+    }),
   }),
 });
 
-export const { useGetPersonsQuery, usePostPersonMutation } = getPeopleApi;
+export const {
+  useGetPersonsQuery,
+  usePostPersonMutation,
+  useDeletePersonMutation,
+  useDeleteMultiplePersonMutation,
+} = peopleApi;

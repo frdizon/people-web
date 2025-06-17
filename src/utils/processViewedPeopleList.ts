@@ -1,7 +1,7 @@
 // This function processess the raw peoples list (from GET /people)
 //  to a list that undergoes filtering and sorting
 
-import type { TPerson } from "../redux/getPeopleApi";
+import type { TPerson } from "../redux/peopleApi";
 import type { TQueryValuesState } from "../redux/peopleSlice";
 
 export type TPersonFields =
@@ -25,7 +25,6 @@ const processViewedPeopleList = (
 
   // Filter by searchValue
   if (queryValues.searching) {
-    console.log(queryValues.searching);
     viewedPersonsList = viewedPersonsList.filter(
       (person) =>
         queryValues.searching &&
