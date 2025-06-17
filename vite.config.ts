@@ -12,4 +12,5 @@ export default defineConfig({
       provider: "istanbul",
     },
   },
+  base: "/people-web/",
 } as UserConfig);
