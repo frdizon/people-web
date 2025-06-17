@@ -25,14 +25,20 @@ export interface TPerson
   name: string;
 }
 
+export type TPostPersonRequestBody = Omit<
+  TRawPerson,
+  "id" | "created_at" | "user_id"
+>;
+
 const PEOPLE_BASE_URL = import.meta.env.VITE_PEOPLE_BASE_URL;
 
 export const getPeopleApi = createApi({
   reducerPath: "getPeopleApi",
+  tagTypes: ["people"],
   baseQuery: fetchBaseQuery({
     baseUrl: `${PEOPLE_BASE_URL}`,
     prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).authToken.token; // adjust based on your store structure
+      const token = (getState() as RootState).authToken.token;
       if (token) {
         headers.set("Authorization", `${token}`);
       }
@@ -45,6 +51,7 @@ export const getPeopleApi = createApi({
         url: "person",
         method: "GET",
       }),
+      providesTags: ["people"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
@@ -56,12 +63,23 @@ export const getPeopleApi = createApi({
               }))
             )
           );
-        } catch (_) {
-          //
+        } catch {
+          // Do nothing
         }
       },
+    }),
+    postPerson: builder.mutation<void, TPostPersonRequestBody>({
+      query: (requestBody) => ({
+        url: "person",
+        method: "POST",
+        body: {
+          ...requestBody,
+          user_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        },
+      }),
+      invalidatesTags: ["people"],
     }),
   }),
 });
 
-export const { useGetPersonsQuery } = getPeopleApi;
+export const { useGetPersonsQuery, usePostPersonMutation } = getPeopleApi;

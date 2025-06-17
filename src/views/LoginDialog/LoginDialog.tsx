@@ -2,7 +2,7 @@ import { useCallback, useState, type ChangeEvent, type FC } from "react";
 import CommonDialog from "../../components/CommonDialog/CommonDialog";
 import CommonButton from "../../components/CommonButton/CommonButton";
 import { useLazyLoginQuery } from "../../redux/loginApi";
-import { errorMessageParser } from "./utils";
+import errorMessageParser from "../../utils/errorMessageParser";
 
 const LoginDialog: FC = () => {
   const [login, { error, isFetching }] = useLazyLoginQuery();
@@ -57,7 +57,5 @@ const LoginDialog: FC = () => {
     </CommonDialog>
   );
 };
-
-//<div className="w-7 h-7 border-4 border-t-blue-500 border-stone-800/50 rounded-full animate-spin"></div>
 
 export default LoginDialog;

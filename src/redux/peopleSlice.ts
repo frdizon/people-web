@@ -45,12 +45,12 @@ export const personsListSlice = createSlice({
   reducers: {
     setRawPersonsList: (state, action: PayloadAction<TPerson[]>) => {
       state.rawPersonsList = action.payload;
-      state.queryValues.pagination = {
+      state.queryValues.pagination = state.queryValues.pagination ?? {
         currentPage: 0,
         lastPage: Math.ceil(action.payload.length / 5),
         offset: 5,
       };
-      state.queryValues.sorting = {
+      state.queryValues.sorting = state.queryValues.sorting ?? {
         type: "asc",
         field: "name",
       };
@@ -58,7 +58,10 @@ export const personsListSlice = createSlice({
         state.rawPersonsList,
         state.queryValues
       );
-      state.viewedPersonsList = state.filteredSortedList.slice(0, 5);
+      state.viewedPersonsList = state.filteredSortedList.slice(
+        state.queryValues.pagination.currentPage * 5,
+        state.queryValues.pagination.currentPage * 5 + 5
+      );
     },
     doPagination: (state, action: PayloadAction<TDoPagination>) => {
       if (state.queryValues.pagination) {

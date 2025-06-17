@@ -7,7 +7,7 @@ interface TApiError {
   payload: string;
 }
 
-export const errorMessageParser = (
+const errorMessageParser = (
   error: FetchBaseQueryError | SerializedError | undefined
 ): string => {
   if (error === undefined) {
@@ -21,3 +21,5 @@ export const errorMessageParser = (
 
   return "An error occured."; // to be removed
 };
+
+export default errorMessageParser;

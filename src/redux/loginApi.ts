@@ -29,7 +29,7 @@ export const loginApi = createApi({
         try {
           const { data } = await queryFulfilled;
           dispatch(set(data.authToken));
-        } catch (_) {
+        } catch {
           dispatch(clear());
         }
       },
