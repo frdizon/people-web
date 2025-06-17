@@ -1,12 +1,13 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
+import Cookies from "js-cookie";
 
 export interface AuthTokenState {
   token: string;
 }
 
 const initialState: AuthTokenState = {
-  token: "",
+  token: Cookies.get("authToken") ?? "",
 };
 
 export const authTokenSlice = createSlice({
@@ -15,9 +16,13 @@ export const authTokenSlice = createSlice({
   reducers: {
     set: (state, action: PayloadAction<string>) => {
       state.token = action.payload;
+      Cookies.set("authToken", action.payload, {
+        expires: 1,
+      });
     },
     clear: (state) => {
       state.token = "";
+      Cookies.remove("authToken");
     },
   },
 });
