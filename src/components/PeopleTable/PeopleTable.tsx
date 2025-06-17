@@ -11,7 +11,10 @@ const PeopleTable: FC<TPeopleTableProps> = ({ isLoading }) => {
   if (isLoading) {
     return (
       <div className="size-full flex items-center justify-center">
-        <div className="w-18 h-18 border-4 border-t-blue-500 border-stone-800/50 rounded-full animate-spin" />
+        <div
+          className="w-18 h-18 border-4 border-t-blue-500 border-stone-800/50 rounded-full animate-spin"
+          data-testid="PeopleTable-Loading-Spinner"
+        />
       </div>
     );
   }

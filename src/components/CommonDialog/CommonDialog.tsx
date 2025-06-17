@@ -1,7 +1,7 @@
 import type { FC, ReactNode } from "react";
 import { createPortal } from "react-dom";
 
-interface TCommonDialogProps {
+export interface TCommonDialogProps {
   children: ReactNode;
 }
 
