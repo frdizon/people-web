@@ -1,8 +1,8 @@
 # Accessing through Github Pages
 
-This application is also deployed to Github Pages for quick accessing without needing to build in your local machine.
+This application is also deployed to Github Pages for quick accessing without needing to build on your local machine.
 
-Access it in this link:
+Access it at this link:
 https://frdizon.github.io/people-web/
 
 ## Running on your local machine.
