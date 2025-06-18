@@ -22,12 +22,7 @@ Install required modules/dependencies:
 npm install
 ```
 
-Install required modules/dependencies:
-```
-npm install
-```
-
-You can now build the app in your localhost:
+You can now build the app on your localhost:
 ```
 npm run dev
 ```
