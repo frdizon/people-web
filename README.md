@@ -28,8 +28,8 @@ npm run dev
 ```
 
 ## Sample unit tests
-Unit tests files are under `__tests__` folders. <br/>
-There are only 3 components that has sample Unit testing:
+Unit test files are under `__tests__` folders. <br/>
+There are only 3 components that have sample Unit testing:
 
 #### src/components/AddPeopleDialog
 ![image](https://github.com/user-attachments/assets/5537bccc-b035-4fa9-b96a-a3fbdf9321bd)<br/>
@@ -42,5 +42,5 @@ There are only 3 components that has sample Unit testing:
 #### src/redux/peopleSlice.ts
 ![image](https://github.com/user-attachments/assets/2f0585ec-6cbd-4734-8755-77cc36373a26)<br/>
 ![image](https://github.com/user-attachments/assets/b8d24235-b06f-440c-b539-10626a3ddb4c)
-* Only tested 2 reducers, as a Sample unit testing for reducer
+* Only tested 2 reducer actions, as a Sample unit testing for reducer
 
